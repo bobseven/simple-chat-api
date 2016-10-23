@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Auth;
 class ChannelController extends Controller
 {
 
+    public function __construct()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    }
+
     public function send(Request $request)
     {
         $payload = $request->all();
@@ -28,7 +34,7 @@ class ChannelController extends Controller
 
     public function show(Request $request)
     {
-        return Message::where('channel_id', $request->id)->get();
+        return $this->success(Message::where('channel_id', $request->id)->get());
     }
 
 
@@ -46,15 +52,17 @@ class ChannelController extends Controller
     {
         return Validator::make($data, [
             'channel_id' => 'required|max:255',
-            'message' => 'required|max:255'
+            'message' => 'required|max:255',
+            'user_id' => 'max:255'
         ]);
     }
 
     private function newMessage(array $data)
     {
+
         return Message::create([
             'channel_id' => $data['channel_id'],
-            'user_id' => Auth::user()->id,
+            'user_id' => $data['user_id'],
             'message' => $data['message']
         ]);
     }
