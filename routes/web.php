@@ -21,3 +21,13 @@ Route::group(['prefix' => 'message'], function () {
     Route::get("{id}", 'MessageController@show');
     Route::post("", 'MessageController@send');
 });
+
+Route::group(['prefix' => 'channel'], function () {
+    Route::get("{id}", 'ChannelController@show');
+    Route::post("message", 'ChannelController@send');
+    Route::post("new/{userId}", 'ChannelController@create');
+});
+
+Route::group(['prefix' => 'channels'], function () {
+    Route::get("list", "ChannelController@showAll");
+});

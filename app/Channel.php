@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Channel extends Model
 {
+    public $guarded = [];
     public function messages() {
         return $this->hasMany('App\Message');
     }

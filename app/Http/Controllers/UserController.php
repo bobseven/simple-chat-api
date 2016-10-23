@@ -10,14 +10,21 @@ use App\Http\Requests;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    }
+
     public function register(Request $request)
     {
+        $payload = $request->json()->all();
         //TODO: Will eventually integrate with another micro service to create an account send post.
-        if ($errors = $this->validator($request->all())->errors()->all()) {
+        if ($errors = $this->validator($payload)->errors()->all()) {
             return $this->fail($errors);
         }
 
-        return $this->create($request->all());
+        return $this->create($payload);
     }
 
     public function show(Request $request){
