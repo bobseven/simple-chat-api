@@ -6,7 +6,7 @@ use App\Channel;
 use App\Message;
 use App\User;
 use Illuminate\Http\Request;
-
+use GuzzleHttp\Client;
 use App\Http\Requests;
 use Validator;
 use Illuminate\Support\Facades\Auth;
@@ -60,23 +60,27 @@ class ChannelController extends Controller
     private function newMessage(array $data)
     {
 
-        return Message::create([
+        $message =  Message::create([
             'channel_id' => $data['channel_id'],
             'user_id' => $data['user_id'],
             'message' => $data['message']
         ]);
+        if($message){
+            // Create a client with a base URI
+            $client = new Client(['base_uri' => 'http://192.168.0.6:5000/']);
+            // Send a request to https://foo.com/api/test
+            $client->request('POST', 'flare/' . $data['channel_id']);
+        }
+        return $message;
     }
 
     private function newChannel($userId)
     {
         $channel = Channel::create(['description' => 'test']);
         $recipient = User::find($userId);
-        if ($user = Auth::user()) {
-            $user->channels()->attach($channel->id);
-            $recipient->channels()->attach($channel->id);
-            return $this->listChannels();
-        }
-        return $channel;
+        $user->channels()->attach($channel->id);
+        $recipient->channels()->attach($channel->id);
+        return $this->listChannels();
     }
 
     private function listChannels()

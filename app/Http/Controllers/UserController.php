@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Requests;
 
+use JWTAuth;
+use Tymon\JWTAuthExceptions\JWTException;
+
+
 class UserController extends Controller
 {
     public function __construct()
