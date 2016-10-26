@@ -2,18 +2,16 @@
 
 namespace App;
 
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject as AuthenticatableUserContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class User extends Model implements
-    CanResetPasswordContract,
-    AuthenticatableUserContract
+class User extends Authenticatable implements
+    AuthenticatableUserContract,
+    CanResetPasswordContract
 {
-    use Authorizable, CanResetPassword, Notifiable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -39,32 +37,14 @@ class User extends Model implements
     }
 
     /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
      * @return mixed
      */
     public function getJWTIdentifier()
     {
         return $this->getKey();  // Eloquent model method
-    }
-
-    /**
-     * Get the e-mail address where password reset links are sent.
-     *
-     * @return string
-     */
-    public function getEmailForPasswordReset()
-    {
-        // TODO: Implement getEmailForPasswordReset() method.
-    }
-
-    /**
-     * Send the password reset notification.
-     *
-     * @param  string $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        // TODO: Implement sendPasswordResetNotification() method.
+        // TODO: Implement getJWTIdentifier() method.
     }
 
     /**
@@ -74,6 +54,12 @@ class User extends Model implements
      */
     public function getJWTCustomClaims()
     {
+        return [
+            'user' => [
+                'id' => $this->id,
+             ]
+        ];
+
         // TODO: Implement getJWTCustomClaims() method.
     }
 }

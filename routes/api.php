@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 */
 
 
-Route::post('login', 'Auth\LoginController@login');
+
 
 Route::group([
     'prefix' => 'restricted',
@@ -29,6 +29,8 @@ Route::group([
         return 'authenticated';
     });
 });
+
+Route::post('login', 'Auth\LoginController@login');
 
 
 Route::group(['prefix' => 'user'], function () {

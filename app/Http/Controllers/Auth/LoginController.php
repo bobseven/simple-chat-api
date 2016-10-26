@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 
 class LoginController extends Controller
 {
@@ -72,10 +73,9 @@ class LoginController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
-    protected function sendLoginResponse(Request $request, $throttles, string $token)
+    protected function sendLoginResponse(Request $request, string $token)
     {
         $this->clearLoginAttempts($request);
-
         return $this->authenticated($request, $this->guard()->user(), $token);
     }
 
