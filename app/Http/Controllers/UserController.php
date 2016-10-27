@@ -34,6 +34,8 @@ class UserController extends Controller
         return $this->fail('User must be authenticated');
     }
 
+
+
     private function validator(array $data)
     {
         return Validator::make($data, [

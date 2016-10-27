@@ -12,6 +12,6 @@ class Channel extends Model
     }
 
     public function users() {
-        return $this->hasManyThrough('App\User', 'App\ChannelUser');
+        return $this->belongsToMany('App\User', 'channel_users');
     }
 }

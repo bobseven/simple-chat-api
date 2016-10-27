@@ -36,7 +36,7 @@ Route::group(['prefix' => 'channel', 'middleware' => 'auth:api'], function () {
 });
 
 Route::group(['prefix' => 'channels', 'middleware' => 'auth:api'], function () {
-    Route::get("list", "ChannelController@showAll");
+    Route::get("", "ChannelController@showAll");
 });
 
 Route::group(['prefix' => 'search', 'middleware' => 'auth:api'], function () {
