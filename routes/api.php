@@ -17,43 +17,28 @@ use Illuminate\Http\Request;
 
 
 
-Route::group([
-    'prefix' => 'restricted',
-    'middleware' => 'auth:api',
-], function () {
-
-    // Authentication Routes...
-    Route::get('logout', 'Auth\LoginController@logout');
-
-    Route::get('/test', function () {
-        return 'authenticated';
-    });
-});
-
 Route::post('login', 'Auth\LoginController@login');
+Route::post("user/register", 'UserController@register');
 
-
-Route::group(['prefix' => 'user'], function () {
+Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function () {
     Route::get("", 'UserController@show');
-    Route::post("", 'UserController@register');
-    Route::post("login", 'UserController@login');
 });
 
-Route::group(['prefix' => 'message'], function () {
+Route::group(['prefix' => 'message', 'middleware' => 'auth:api'], function () {
     Route::get("{id}", 'MessageController@show');
     Route::post("", 'MessageController@send');
 });
 
-Route::group(['prefix' => 'channel'], function () {
+Route::group(['prefix' => 'channel', 'middleware' => 'auth:api'], function () {
     Route::get("{id}", 'ChannelController@show');
     Route::post("message", 'ChannelController@send');
     Route::post("new/{userId}", 'ChannelController@create');
 });
 
-Route::group(['prefix' => 'channels'], function () {
+Route::group(['prefix' => 'channels', 'middleware' => 'auth:api'], function () {
     Route::get("list", "ChannelController@showAll");
 });
 
-Route::group(['prefix' => 'search'], function () {
+Route::group(['prefix' => 'search', 'middleware' => 'auth:api'], function () {
     Route::post("contacts", "SearchController@search");
 });

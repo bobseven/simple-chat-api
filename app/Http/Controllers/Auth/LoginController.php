@@ -82,9 +82,8 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user, string $token)
     {
-        return response()->json([
-            'token' => $token,
-        ]);
+        $user['token'] = $token;
+        return response()->json($user);
     }
 
     protected function sendFailedLoginResponse(Request $request)
