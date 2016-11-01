@@ -126,7 +126,15 @@ class ChannelController extends Controller
      */
     private function listChannels()
     {
-        return Auth::guard()->user()->channels->load('users');
+        $channels = Auth::guard()->user()->channels->load('users');
+        foreach($channels as $channel){
+           foreach($channel->users as $key => $user){
+               if ($user->id == Auth::guard()->user()->id){
+                   unset($channel->users[$key]);
+               }
+           }
+        }
+        return $channels;
     }
 
     /**
